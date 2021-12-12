@@ -10,13 +10,16 @@ WebAssembly.instantiate(WASM_CODE).then(result => {
 	for (var y=0; y<h; y++) {
 		for (var x=0; x<w; x++) {
 			if (Math.random()>0.5) {
-				data[(y*w+x)*4] = 255
-				data[(y*w+x)*4+1] = 255
-				data[(y*w+x)*4+2] = 255
+				data[(y*w+x)*4+3] = 255
+				data[(y*w+x)*4] = Math.random()*256 | 0
+				data[(y*w+x)*4+1] = Math.random()*256 | 0
+				data[(y*w+x)*4+2] = Math.random()*256 | 0
 			}
-			data[(y*w+x)*4+3] = 255
 		}
 	}
+	ctx.putImageData(image, 0, 0)
+		result.instance.exports.life(w, h, 1024)
+		ctx.putImageData(image, 0, 0)
 	function update() {
 		result.instance.exports.life(w, h, 1024)
 		ctx.putImageData(image, 0, 0)
