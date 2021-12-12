@@ -4,10 +4,10 @@
 typedef struct Pixel {
 	uint8_t r,g,b,a;
 } Pixel;
-//                           0 1 2 3 4 5 6 7 8
-static const bool stay[9] = {0,0,0,1,1,1,1,0,0};
-static const bool born[9] = {0,0,1,0,0,0,0,1,1};
-static const int fade = 6;
+//              0 1 2 3 4 5 6 7 8
+bool stay[9] = {0,0,1,1,0,0,0,0,0};
+bool born[9] = {0,0,0,1,0,0,0,0,0};
+int fade = 0;
 
 void life(int width, int height, Pixel img[height][width]) {
 	Pixel temp[height][width];
@@ -38,7 +38,7 @@ void life(int width, int height, Pixel img[height][width]) {
 						temp[y][x].a = 0;
 				}
 			}
-			if (temp[y][x].a) {
+			if (temp[y][x].a && fade) {
 				temp[y][x].r = (255-temp[y][x].a)*255/fade;
 			}
 		}
