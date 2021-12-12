@@ -1,14 +1,4 @@
-var memory = new WebAssembly.Memory({initial:100});
-
-var importObject = {
-	imports: {
-		env: {
-			
-		}
-	}
-}
-
-WebAssembly.instantiate(WASM_CODE, { imports: { memory: memory } }).then(result => {
+WebAssembly.instantiate(WASM_CODE).then(result => {
 	window.ex = result.instance.exports
 	result.instance.exports.memory.grow(100)
 	let b = result.instance.exports.memory.buffer
