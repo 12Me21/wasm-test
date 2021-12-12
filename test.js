@@ -1,11 +1,11 @@
 var importObject = {
 	imports: {
-		imported_func: function(arg) {
-			console.log(arg)
+		env: {
+			
 		}
 	}
 }
 
-WebAssembly.instantiate(WASM_TEST, importObject).then(result=> {
-	result.instance.exports.exported_func()
+WebAssembly.instantiate(WASM_CODE, importObject).then(result=> {
+	console.log(result.instance.exports)
 })
