@@ -9,7 +9,7 @@ WebAssembly.instantiate(WASM_CODE).then(result => {
 	let ctx = $canvas.getContext('2d')
 	for (var y=0; y<h; y++) {
 		for (var x=0; x<w; x++) {
-			if (Math.random()>0.5) {
+			if (Math.random()>0.7) {
 				data[(y*w+x)*4+3] = 255
 				data[(y*w+x)*4] = Math.random()*256 | 0
 				data[(y*w+x)*4+1] = Math.random()*256 | 0

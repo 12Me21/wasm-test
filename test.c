@@ -21,7 +21,7 @@ void life(int width, int height, Pixel img[height][width]) {
 							neighbors += 1;
 							nr += n.r;
 							ng += n.g;
-							nb += n.b;
+							//							nb += n.b;
 						}
 					}
 				}
@@ -29,16 +29,9 @@ void life(int width, int height, Pixel img[height][width]) {
 			if (neighbors==3 || (alive && neighbors==2)) {
 				temp[y][x].a = 255;
 				if (!alive) {
-					if (nr>128)
-						nr += neighbors-1;
-					if (ng>128)
-						ng += neighbors-1;
-					if (nb>128)
-						nb += neighbors-1;
-							
-					temp[y][x].r = (nr)/neighbors;
-					temp[y][x].g = (ng)/neighbors;
-					temp[y][x].b = (nb)/neighbors;
+					temp[y][x].r = nr/neighbors > 127 ? 255 : 0;
+					temp[y][x].g = ng/neighbors > 127 ? 255 : 0;
+					temp[y][x].b = nb/neighbors > 127 ? 255 : 0;
 				}
 			} else {
 				temp[y][x] = (Pixel){0,0,0,0};
