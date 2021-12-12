@@ -1,4 +1,4 @@
-var memory = new WebAssembly.Memory({initial:10});
+var memory = new WebAssembly.Memory({initial:100});
 
 var importObject = {
 	imports: {
@@ -8,23 +8,29 @@ var importObject = {
 	}
 }
 
-WebAssembly.instantiate(WASM_CODE).then(result => {
+WebAssembly.instantiate(WASM_CODE, { imports: { memory: memory } }).then(result => {
+	window.ex = result.instance.exports
+	result.instance.exports.memory.grow(100)
 	let b = result.instance.exports.memory.buffer
-	let data = new Uint8ClampedArray(b, 1024, 100*100*4)
-	let image = new ImageData(data, 100, 100)
+	let w = $canvas.width
+	let h = $canvas.height
+	let data = new Uint8ClampedArray(b, 1024, w*h*4)
+	let image = new ImageData(data, w, h)
 	let ctx = $canvas.getContext('2d')
-	for (var y=0; y<100; y++) {
-		for (var x=0; x<100; x++) {
+	for (var y=0; y<h; y++) {
+		for (var x=0; x<w; x++) {
 			if (Math.random()>0.5) {
-				data[(y*100+x)*4] = 255;
-				data[(y*100+x)*4+1] = 255;
-				data[(y*100+x)*4+2] = 255;
+				data[(y*w+x)*4] = 255
+				data[(y*w+x)*4+1] = 255
+				data[(y*w+x)*4+2] = 255
 			}
-			data[(y*100+x)*4+3] = 255;
+			data[(y*w+x)*4+3] = 255
 		}
 	}
-	$canvas.onclick = function() {
-		result.instance.exports.life(100, 100, 1024)
+	function update() {
+		result.instance.exports.life(w, h, 1024)
 		ctx.putImageData(image, 0, 0)
+		window.requestAnimationFrame(update)
 	}
+	window.requestAnimationFrame(update)
 })

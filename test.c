@@ -9,9 +9,10 @@ void life(int width, int height, Pixel img[height][width]) {
 	for (int y=0; y<height; y++) {
 		for (int x=0; x<width; x++) {
 			int neighbors = 0;
-			for (int j=-1; j<1; j++) {
-				for (int i=-1; i<1; i++) {
-					neighbors += img[(y+j+height)%height][(x+i+width)%width].r != 0;
+			for (int j=-1; j<=1; j++) {
+				for (int i=-1; i<=1; i++) {
+					if (i || j)
+						neighbors += img[(y+j+height)%height][(x+i+width)%width].r != 0;
 				}
 			}
 			int alive = img[y][x].r != 0;
