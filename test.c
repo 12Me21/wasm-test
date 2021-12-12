@@ -1,5 +1,11 @@
-__attribute__((used)) int ar[5];
+#include <stdint.h>
 
-__attribute__((used)) int first(int* array) {
-	return array[0];
+typedef struct Pixel {
+	uint8_t r,g,b,a;
+} Pixel;
+
+void fill(Pixel* array, int length) {
+	for (int i=0; i<length; i++) {
+		array[i] = (Pixel){i,i,i,255};
+	}
 }
